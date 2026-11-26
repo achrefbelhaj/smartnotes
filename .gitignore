@@ -1,0 +1,24 @@
+# ---------- Backend ----------
+backend/target/
+*.class
+*.log
+HELP.md
+
+# ---------- Frontend ----------
+frontend/node_modules/
+frontend/dist/
+
+# ---------- Secrets : ne JAMAIS commiter ----------
+.env
+.env.*
+*.env
+!.env.example
+
+# ---------- IDE ----------
+.idea/
+.vscode/
+*.iml
+
+# ---------- Windows ----------
+Thumbs.db
+Desktop.ini
