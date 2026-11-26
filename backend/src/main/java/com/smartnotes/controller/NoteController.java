@@ -2,6 +2,9 @@ package com.smartnotes.controller;
 
 import com.smartnotes.dto.NoteRequest;
 import com.smartnotes.dto.NoteResponse;
+import com.smartnotes.dto.SummaryResponse;
+import com.smartnotes.entity.Note;
+import com.smartnotes.service.AiService;
 import com.smartnotes.service.NoteService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -15,14 +18,15 @@ import java.util.List;
 public class NoteController {
 
     private final NoteService noteService;
+    private final AiService aiService;
 
-    public NoteController(NoteService noteService) {
+    public NoteController(NoteService noteService, AiService aiService) {
         this.noteService = noteService;
+        this.aiService = aiService;
     }
 
     // "Authentication" est rempli par notre JwtAuthFilter :
     // authentication.getName() renvoie l'email de l'utilisateur connecté (lu dans le token).
-    // On ne prend JAMAIS l'identité depuis la requête, seulement depuis le token.
 
     @GetMapping
     public List<NoteResponse> list(Authentication authentication) {
@@ -51,5 +55,13 @@ public class NoteController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id, Authentication authentication) {
         noteService.delete(id, authentication.getName());
+    }
+
+    // POST /api/notes/{id}/summarize : résume le contenu d'UNE note de l'utilisateur connecté
+    @PostMapping("/{id}/summarize")
+    public SummaryResponse summarize(@PathVariable Long id, Authentication authentication) {
+        // Même vérification de propriété que pour le reste : 404 si la note n'est pas à lui
+        Note note = noteService.findOwnedNote(id, authentication.getName());
+        return new SummaryResponse(aiService.summarize(note.getContent()));
     }
 }

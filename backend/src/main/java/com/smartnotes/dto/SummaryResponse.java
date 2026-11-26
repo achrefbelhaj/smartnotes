@@ -1,3 +1,4 @@
 package com.smartnotes.dto;
 
-// À remplir à l'étape 5
+// envoyr resume au frontend
+public record SummaryResponse(String summary) {}
