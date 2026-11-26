@@ -44,6 +44,7 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()          // inscription et connexion : libres
+                        .requestMatchers("/error").permitAll()                 // page d'erreur interne de Spring (sinon 404/400 deviennent 401)
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // requêtes préliminaires du navigateur (CORS)
                         .anyRequest().authenticated()                          // tout le reste : token obligatoire
                 )
