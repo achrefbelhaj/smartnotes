@@ -165,3 +165,4 @@ Le frontend appelle `http://localhost:8081/api` par défaut. Pour changer cette 
 - Avec l'offre gratuite de Gemini, le contenu envoyé peut servir à améliorer les produits de Google : ne mets pas de données sensibles dans les notes.
 
 
+
